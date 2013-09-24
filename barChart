@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Bar chart</title>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+</head>
+
+<body>
+<script>
+d3.json("actions.json", function (data) { 
+
+var canvas = d3.select("body").append("svg")
+    .attr("width", 500)
+    .attr("height", 500)
+
+canvas.selectAll("rect")
+    .data(data)
+    .enter()
+        .append("rect")
+        .attr("width", function (d) { 
+			var count = Object.keys(d).length
+			return Math.floor(500 / count) - 5; })
+        .attr("height", function (d) { return d.total_points / d.occurences; })
+		.attr("category", function (d) { return d.player_name; })
+		.attr("x", function (d) { 
+			var date = new Date(d.timestamp*1000);
+			var minutes = date.getMinutes();
+			return minutes; })
+        .attr("fill", "blue");
+		
+
+})
+</script>
+</body>
+</html>
